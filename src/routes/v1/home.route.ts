@@ -4,22 +4,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 import puppeteer from "puppeteer";
 
-// import run from "../../bot.js";
-
 const router = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let browser: any;
-// let page: any;
 
 (async () => {
   browser = await puppeteer.launch({
     headless: false,
     executablePath: "/usr/bin/chromium",
   });
-  // page = await browser.newPage();
-  // await page.goto("https://dkhobreh.exirbroker.com/login");
+
   console.log("Puppeteer started");
 })();
 
@@ -47,17 +43,11 @@ router.get("/", async (_, res: any) => {
           res.status(500).send("An error occurred");
         } else {
           console.log("data", data);
-          // console.log("data type", typeof data);
-          // res.sendFile(data);
           const filePath = path.resolve(__dirname, "../../../captcha.png");
-          // res.sendFile(filePath);
           const file = fs.readFileSync(filePath);
           const fileBuffer = Buffer.from(file);
           const fileBase64 = fileBuffer.toString("base64");
           res.send({ image: fileBase64 });
-
-          // res.set("Content-Type", "image/png");
-          // res.send(data);
         }
       }
     );
@@ -66,13 +56,6 @@ router.get("/", async (_, res: any) => {
 
 router.post("/", async (req) => {
   console.log("req", req.body);
-  // console.log("res", res);
-  // await page.$eval(
-  //   ".number-input",
-  //   (el: any) => (el.value = req.body.captcha)
-  // );
-
-  // run(false, "slkjfs");
 });
 
 export default router;
